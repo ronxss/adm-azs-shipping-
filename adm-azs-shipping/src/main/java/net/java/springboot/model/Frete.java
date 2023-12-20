@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Frete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String cliente;
     private String enderecoOrigem;
     private String enderecoDestino;

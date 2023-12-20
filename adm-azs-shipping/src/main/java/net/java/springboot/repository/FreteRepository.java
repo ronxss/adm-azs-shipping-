@@ -18,6 +18,6 @@ public interface FreteRepository extends PagingAndSortingRepository<Frete, Long>
                    "or f.cubagem like  %:filter% " +
                    "or f.endereco_origem like  %:filter% " +
                    "or f.endereco_destino like  %:filter% " +
-                   "or f.peso like  %:filter% " , nativeQuery = true)
-    Page<Frete> FindByFilter(@Param("filter") String filter, Pageable pageable);
+                   "or f.peso like  %:filter%", nativeQuery = true)
+    Page<Frete> findByFilter(@Param("filter") String filter, Pageable pageable);
 }

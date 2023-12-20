@@ -21,23 +21,40 @@ public class FreteService {
 
     @Autowired
     private FreteRepository freteRepository;
-    public Frete Save(Frete frete){
+
+    public Frete Save(Frete frete) {
         return freteRepository.save(frete);
     }
-    public List<Frete> FindAll(){
+
+    public List<Frete> FindAll() {
         return freteRepository.findAll();
     }
-    public Page<Frete> FindByFilter(String filter, int page, int size){
+
+    public List<Frete> findByFilter(String filter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return freteRepository.FindByFilter("%" + filter + "%", pageable);
+        Page<Frete> resultPage = freteRepository.findByFilter(filter, pageable);
+        return resultPage.toList();
     }
-    public void DeleteById(Long Id){
+
+    public void DeleteById(Long Id) {
         freteRepository.deleteById(Id);
 
     }
-    public Frete Update(Long id, Frete frete)  {
-        if (frete.getId() != null && frete.getId().equals(id)) {
-            frete = freteRepository.save(frete);
+
+    public Frete updateFrete(Long id, Frete frete) {
+
+        Optional<Frete> optionalExistingFrete = freteRepository.findById(id);
+
+        if (optionalExistingFrete.isPresent()) {
+            Frete existingFrete = optionalExistingFrete.get();
+
+            existingFrete.setCliente(frete.getCliente());
+            existingFrete.setCubagem(frete.getCubagem());
+            existingFrete.setEnderecoOrigem(frete.getEnderecoOrigem());
+            existingFrete.setEnderecoDestino(frete.getEnderecoDestino());
+            existingFrete.setPeso(frete.getPeso());
+
+            return freteRepository.save(existingFrete);
         }
         return frete;
     }

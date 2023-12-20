@@ -22,13 +22,17 @@ public class FreteController {
     public List<Frete> FindAll(){
         return freteService.FindAll();
     }
-    @GetMapping({"filter"})
-    public ResponseEntity <Page<Frete>> FindByFilter(
-        @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-        @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        Page<Frete> resultPage = freteService.FindByFilter(filter, page, size);
+    //Rota:
+    // /find/{filter}?page=0&size=10
+    @GetMapping("/find/{filter}")
+    @ResponseBody
+    public ResponseEntity <List<Frete>> findByFilter(
+            @PathVariable String filter,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        List<Frete> resultPage = freteService.findByFilter(filter, page, size);
         return ResponseEntity.ok(resultPage);
     }
     @PostMapping
@@ -36,9 +40,9 @@ public class FreteController {
         return freteService.Save(frete);
     }
 
-    @PutMapping("/id")
-    public Frete Update(@RequestParam(value = "id") Long id, @RequestBody Frete frete){
-        return freteService.Update(id, frete);
+    @PutMapping("/{id}")
+    public Frete updateFrete(@PathVariable Long id, @RequestBody Frete updatedFrete){
+        return freteService.updateFrete(id, updatedFrete);
     }
     @DeleteMapping
     public void DeleteById(@RequestParam(name = "id") Long Id){
